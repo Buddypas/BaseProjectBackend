@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const sequelize = require("./util/database");
-const postRoutes = require('./routes/post');
+const postRoutes = require("./routes/post");
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,15 +20,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/posts',postRoutes);
+app.use("/posts", postRoutes);
 
 sequelize
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
     sequelize.sync().then(() => {
-        console.log("Models synced.");
-        app.listen(process.env.PORT || 3000);
-    })
+      console.log("Models synced.");
+      app.listen(process.env.PORT || 3000);
+    });
   })
   .catch((err) => console.error("Unable to connect to the database:", err));
