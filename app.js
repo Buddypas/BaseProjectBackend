@@ -1,9 +1,27 @@
+const path = require('path');
+const fs = require('fs');
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const sequelize = require("./util/database");
 const postRoutes = require("./routes/post");
+const compression = require("compression");
+const morgan = require("morgan");
+const helmet = require("helmet");
+
 
 const app = express();
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'access.log'),
+  { flags: 'a' }
+);
+
+app.use(morgan('combined', { stream: accessLogStream }));
+
+app.use(helmet());
+app.use(compression());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
