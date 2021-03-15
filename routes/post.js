@@ -1,11 +1,12 @@
 const express = require("express");
 const Post = require("../models/post");
 const router = express.Router();
+const checkAuth = require("../shared/check-auth");
 
 /**
  * Get all posts
  */
-router.get("", (req, res, next) => {
+router.get("", checkAuth, (req, res, next) => {
   const page = req.query.page;
   console.log("Page: " + page);
 
@@ -34,7 +35,7 @@ router.get("", (req, res, next) => {
  * Add a new post
  */
 
-router.post("/add", (req, res, next) => {
+router.post("/add", checkAuth, (req, res, next) => {
   const title = req.body.title;
   const content = req.body.content;
   if (title.length <= 50 && content.length <= 1000) {

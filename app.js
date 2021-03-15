@@ -2,13 +2,12 @@ const path = require('path');
 const fs = require('fs');
 
 const express = require("express");
-const bodyParser = require("body-parser");
-const sequelize = require("./util/database");
+const sequelize = require("./shared/database");
 const postRoutes = require("./routes/post");
+const authRoutes = require("./routes/auth");
 const compression = require("compression");
 const morgan = require("morgan");
 const helmet = require("helmet");
-
 
 const app = express();
 
@@ -22,8 +21,8 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(helmet());
 app.use(compression());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -39,6 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/posts", postRoutes);
+app.use("/auth", authRoutes);
 
 sequelize
   .authenticate()
