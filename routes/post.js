@@ -13,22 +13,28 @@ router.get("", checkAuth, (req, res, next) => {
   Post.findAndCountAll({
     limit: 3,
     offset: page ? page * 3 : 0,
-  }).then((result) => {
-    const currentPage = page ? +page : 0;
-    const totalPages = Math.ceil(+result.count / 3);
-    console.log("currentPage: " + currentPage);
-    console.log("totalPages: " + totalPages);
-    const prevPage = page && page > 0 ? page - 1 : null;
-    const nextPage = currentPage == totalPages - 1 ? null : currentPage + 1;
-    res.status(200).json({
-      data: result.rows,
-      count: result.count,
-      currentPage: currentPage,
-      previousPage: prevPage,
-      nextPage: nextPage,
-      totalPages: totalPages,
+  })
+    .then((result) => {
+      const currentPage = page ? +page : 0;
+      const totalPages = Math.ceil(+result.count / 3);
+      const prevPage = page && page > 0 ? page - 1 : null;
+      const nextPage = currentPage == totalPages - 1 ? null : currentPage + 1;
+      res.status(200).json({
+        data: result.rows,
+        count: result.count,
+        currentPage: currentPage,
+        previousPage: prevPage,
+        nextPage: nextPage,
+        totalPages: totalPages,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        status: 500,
+        error: "server-error",
+        message: err,
+      });
     });
-  });
 });
 
 /**
@@ -38,25 +44,28 @@ router.get("", checkAuth, (req, res, next) => {
 router.post("/add", checkAuth, (req, res, next) => {
   const title = req.body.title;
   const content = req.body.content;
-  if (title.length <= 50 && content.length <= 1000) {
-    Post.create({
-      title: title,
-      content: content,
-    })
-      .then((result) => {
-        console.log("Add result: " + result);
-        res.status(200).json({
-          message: "Post added!",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: err,
-        });
-      });
-  } else
-    res.status(403).json({
+  if (title.length > 50 || content.length > 1000)
+    return res.status(403).json({
+      status: 403,
+      error: "post-too-long",
       message: "Post title or content is too long.",
+    });
+  Post.create({
+    title: title,
+    content: content,
+  })
+    .then((result) => {
+      console.log("Add result: " + result);
+      res.status(200).json({
+        message: "Post added!",
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        status: 500,
+        error: "server-error",
+        message: err,
+      });
     });
 });
 

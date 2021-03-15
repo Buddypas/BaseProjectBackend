@@ -6,15 +6,19 @@ dotenv.config();
 module.exports = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  // console.log(token);
   if (token == null)
-    return res.status(401).json({
-      error: "Unauthorized!",
+    return res.status(403).json({
+      status: 403,
+      error: "no-token-added",
+      message: "No access token provided!",
     });
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET,(err,payload) => {
-    if(err) return res.status(401).json({
-      error: err,
-    });
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+    if (err)
+      return res.status(401).json({
+        status: 401,
+        error: "invalid-token",
+        message: "Invalid token!",
+      });
     req.userData = payload;
     next();
   });

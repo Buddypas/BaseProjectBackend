@@ -118,3 +118,6 @@
 ::ffff:127.0.0.1 - - [15/Mar/2021:21:14:13 +0000] "POST /auth/refresh HTTP/1.1" 200 514 "-" "vscode-restclient"
 ::ffff:127.0.0.1 - - [15/Mar/2021:21:14:15 +0000] "POST /auth/refresh HTTP/1.1" 200 514 "-" "vscode-restclient"
 ::ffff:127.0.0.1 - - [15/Mar/2021:21:14:25 +0000] "POST /auth/refresh HTTP/1.1" 401 55 "-" "vscode-restclient"
+::ffff:127.0.0.1 - - [15/Mar/2021:21:57:50 +0000] "POST /auth/register HTTP/1.1" 201 403 "-" "vscode-restclient"
+::ffff:127.0.0.1 - - [15/Mar/2021:21:59:06 +0000] "POST /auth/register HTTP/1.1" 201 308 "-" "vscode-restclient"
+::ffff:127.0.0.1 - - [15/Mar/2021:21:59:45 +0000] "POST /auth/register HTTP/1.1" 201 69 "-" "vscode-restclient"
