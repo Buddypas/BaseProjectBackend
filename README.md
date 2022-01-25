@@ -1,4 +1,4 @@
 # BaseProjectBackend - Simple Nodejs + Express + PostgreSQL project with Sequelize
 
-* A simple project designed for learning purposes 
+* A simple backend app designed for a demo mobile app inside my company. It includes basic pagination and JWT authentication.
 
