@@ -10,7 +10,7 @@ const router = express.Router();
 
 function generateAccessToken(userData) {
   return jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "30s",
+    expiresIn: "30h",
   });
 }
 
